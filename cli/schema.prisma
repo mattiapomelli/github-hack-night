@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://github-hack-night_owner:cRxnhIByv23m@ep-calm-snowflake-a5li29k1.us-east-2.aws.neon.tech/github-hack-night?sslmode=require"
+}
+
+model Repository {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  owner       String
+  topics      String[]
+}
