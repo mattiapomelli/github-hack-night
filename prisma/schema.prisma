@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Repository {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement()) // @transfomer()
   name        String
   description String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   owner       String
-  topics      String[]
+  topics      String
 }
