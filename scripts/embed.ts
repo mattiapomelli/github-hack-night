@@ -1,34 +1,43 @@
 import { ObjectsBatcher } from "weaviate-ts-client";
 
+import { prisma } from "../src/lib/prisma";
 import { client } from "../src/lib/weaviate";
 
-async function getJsonData() {
-  const file = await fetch(
-    "https://raw.githubusercontent.com/weaviate-tutorials/quickstart/main/data/jeopardy_tiny.json",
-  );
-  return file.json();
-}
+// async function getJsonData() {
+//   const file = await fetch(
+//     "https://raw.githubusercontent.com/weaviate-tutorials/quickstart/main/data/jeopardy_tiny.json",
+//   );
+//   return file.json();
+// }
 
 async function main() {
   console.log("process.env.WEAVIATE_API_KEY: ", process.env.WEAVIATE_API_KEY);
 
   try {
     // Get the questions directly from the URL
-    const data = await getJsonData();
+    // const data = await getJsonData();
+    const repos = await prisma.repository.findMany();
+
+    console.log("Repos: ", repos);
+    // return;
 
     // Prepare a batcher
     let batcher: ObjectsBatcher = client.batch.objectsBatcher();
     let counter = 0;
-    const batchSize = 100;
+    const batchSize = 300;
 
-    for (const question of data) {
+    for (const repo of repos) {
       // Construct an object with a class and properties 'answer' and 'question'
       const obj = {
-        class: "Question",
+        class: "Repo",
+        // class: "Question",
         properties: {
-          answer: question.Answer,
-          question: question.Question,
-          category: question.Category,
+          name: repo.name,
+          description: repo.description,
+          topics: repo.topics.split(","),
+          // answer: question.Answer,
+          // question: question.Question,
+          // category: question.Category,
         },
       };
 

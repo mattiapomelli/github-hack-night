@@ -1,7 +1,7 @@
 import { client } from "../src/lib/weaviate";
 
 const classObj = {
-  class: "Question",
+  class: "Repo",
   vectorizer: "text2vec-openai", // If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
   moduleConfig: {
     "text2vec-openai": {},
